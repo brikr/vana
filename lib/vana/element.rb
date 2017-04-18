@@ -1,3 +1,4 @@
+require 'colorize'
 require 'json'
 
 module Vana
@@ -19,10 +20,13 @@ module Vana
 
       def execute(*args)
         puts "-- #{@element_opts[:name]}"
-        output = action(*args)
-        puts output.to_json
+        @hosts.each do |host|
+          output = action(host, *args)
+          puts "#{host}: #{output.to_json}".colorize(output[:success] ? :light_green : :light_red)
 
-        raise "Execution failed on '#{@element_opts[:name]}'" unless output[:success]
+          # TODO: need a better place to handle exceptions and keep going with the script
+          # raise "Execution failed on '#{@element_opts[:name]}'" unless output[:success]
+        end
       end
     end
   end

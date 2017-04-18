@@ -10,3 +10,12 @@ hosts 'localhost' do
     s.cmd = 'touch /tmp/heyman'
   end
 end
+
+hosts '10.141.21.149', 'localhost' do
+  shell 'whoami'
+
+  shell do |s|
+    s.name = 'this element should fail'
+    s.cmd = 'false'
+  end
+end
