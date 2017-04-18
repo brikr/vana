@@ -1,9 +1,12 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -Ilib
 
 require 'vana'
 
 hosts 'localhost' do
-  tmp = shell 'echo ok'
+  shell 'echo ok'
 
-  puts tmp.inspect
+  shell do |s|
+    s.name = 'touch a temp file'
+    s.cmd = 'touch /tmp/heyman'
+  end
 end

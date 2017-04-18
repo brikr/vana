@@ -5,11 +5,7 @@ Gem::Specification.new do |s|
   s.description = 'dank emoji'
   s.authors = ['Brik Royster']
   s.email = 'brik@butthole.tv'
-  s.files = %w(
-    lib/vana.rb
-    lib/vana/base.rb
-    lib/vana/elements/shell.rb
-  )
+  s.files = Dir.glob('lib/**/*.rb')
   s.homepage = 'http://butthole.tv'
   s.license = 'MIT'
 end
