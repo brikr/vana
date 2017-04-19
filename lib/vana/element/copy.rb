@@ -36,35 +36,38 @@ module Vana
       end
 
       def action(host, *_args)
+        output = {
+          src: @opts[:src],
+          dest: @opts[:dest]
+        }
         if host == 'localhost'
           begin
             FileUtils.cp_r(@opts[:src], @opts[:dest], preserve: @opts[:preserve_time])
-            success = true
+            output[:success] = true
           rescue Errno::ENOENT
-            success = false
+            output[:success] = false
           end
-          {
-            src: @opts[:src],
-            dest: @opts[:dest],
-            success: success
-          }
         elsif @opts[:remote_src]
-          # TODO
+          Net::SSH.start(host) do |ssh|
+            ssh.open_channel do |channel|
+              channel.exec("cp -rf #{@opts[:src]} #{@opts[:dest]}") do |_ch, _success|
+                channel.on_request('exit-status') do |_ch, data|
+                  output[:success] = data.read_long.zero?
+                end
+              end
+            end
+          end
         else
           begin
             Net::SCP.start(host, nil) do |scp|
               scp.upload!(@opts[:src], @opts[:dest], recursive: true, preserve: @opts[:preserve_time])
             end
-            success = true
+            output[:success] = true
           rescue Net::SCP::Error
-            success = false
+            output[:success] = false
           end
-          {
-            src: @opts[:src],
-            dest: @opts[:dest],
-            success: success
-          }
         end
+        output
       end
     end
   end

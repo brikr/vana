@@ -26,6 +26,13 @@ hosts 'butthole.tv' do
   copy '/tmp/heyman', '/tmp/heyman'
 
   copy do |c|
+    c.name = 'remote source copy'
+    c.remote_src = true
+    c.src = '/tmp/heyman'
+    c.dest = '/tmp/heyman2'
+  end
+
+  copy do |c|
     c.name = 'bad copy'
     c.src = '/tmp/heyman'
     c.dest = '/tmsp/heyman2'
