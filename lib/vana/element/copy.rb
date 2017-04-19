@@ -2,13 +2,6 @@ require 'fileutils'
 require 'net/scp'
 
 module Vana
-  # vana/main.rb
-  class Hosts
-    def copy(*args, &block)
-      Vana::Element::Copy.new(@hosts, *args, &block).execute
-    end
-  end
-
   module Element
     # copy element
     class Copy < BaseElement

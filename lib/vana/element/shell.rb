@@ -2,13 +2,6 @@ require 'net/ssh'
 require 'open3'
 
 module Vana
-  # vana/main.rb
-  class Hosts
-    def shell(*args, &block)
-      Vana::Element::Shell.new(@hosts, *args, &block).execute
-    end
-  end
-
   module Element
     # shell element
     class Shell < BaseElement

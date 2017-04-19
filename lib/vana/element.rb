@@ -36,6 +36,13 @@ module Vana
           # raise "Execution failed on '#{@element_opts[:name]}'" unless output[:success]
         end
       end
+
+      def self.inherited(subclass)
+        # create a method in hosts with same name as class, but lowercased to match style
+        Hosts.send(:define_method, subclass.name.split('::').last.downcase) do |*args, &block|
+          subclass.new(@hosts, *args, &block).execute
+        end
+      end
     end
   end
 end
