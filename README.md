@@ -19,7 +19,7 @@ hosts 'localhost' do
   end
 
   # copy a file
-  file do |f|
+  copy do |f|
     f.src = 'files/tmpfile'
     f.dest = '/opt/app'
   end
@@ -30,7 +30,7 @@ end
 # more gems can be written to support dynamic inventories a la Ansible
 hosts 'webservers', 'databases' do
   # copy file from local to remote
-  file do |f|
+  copy do |f|
     f.src = Dir.glob('files/*.war')
     f.dest = '/opt/tomcat8/webapps/.'
   end

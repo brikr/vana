@@ -14,6 +14,14 @@ module Vana
         setup(*args)
       end
 
+      def setup(*_args)
+        # nop
+      end
+
+      def action(_host, *_args)
+        # nop
+      end
+
       def name=(name)
         @element_opts[:name] = name
       end
